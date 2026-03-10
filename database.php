@@ -2,18 +2,30 @@
 
 class Database{
 
+private $host = "localhost";
+private $db_name = "waqar_practice";
+private $username = "root";
+private $password = "";
+
 public $conn;
 
-public function __construct(){
+public function connect(){
 
-$this->conn = new mysqli("localhost","root","","waqar_practice");   
+try{
+    $this->conn = new PDO(
+     "mysql:host=".$this->host. ";dbname=".$this->db_name,
+     $this->username,
+     $this->password,
+);
+ 
+$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-if($this->conn->connect_error){
-    die("Connection Failed");
- }
+return $this->conn;
 
- echo "Database connected successfully!<br>";
-    
+}
+catch (PDOException $e){ 
+    die("Connection Failed : " . $e->getMessage());
+}
 }
 
 }
